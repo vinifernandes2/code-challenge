@@ -1,0 +1,29 @@
+version: 1
+default_environment: dev
+environments:
+  dev:
+    send_anonymous_usage_stats: false
+    plugins:
+      extractors:
+        - name: tap-postgres
+          variant: transferwise
+          pip_url: tap-postgres
+          config:
+            host: localhost
+            port: 5432
+            user: northwind_user
+            password: thewindisblowing
+            database: northwind
+        - name: tap-csv
+          variant: singer-io
+          pip_url: tap-csv
+          config:
+            files:
+              order_details:
+                file_path: data/order_details.csv
+                keys:
+                  - order_id
+                  - product_id
+                  - unit_price
+                  - quantity
+                  - discount
